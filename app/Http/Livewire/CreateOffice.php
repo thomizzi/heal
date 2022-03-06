@@ -5,7 +5,6 @@ namespace App\Http\Livewire;
 use App\Models\Office;
 use Livewire\Component;
 use Filament\Forms;
-use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
 
@@ -13,7 +12,7 @@ class CreateOffice extends Component implements Forms\Contracts\HasForms
 {
     use Forms\Concerns\InteractsWithForms;
 
-    public $name;
+    public $name = '';
 
     public function render()
     {
@@ -34,5 +33,8 @@ class CreateOffice extends Component implements Forms\Contracts\HasForms
     public function submit()
     {
         Office::create($this->form->getState());
+        session()->flash('message', 'Post successfully updated.');
+        $this->emitTo('list-offices', '$refresh');
+        $this->reset();
     }
 }
